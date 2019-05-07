@@ -37,7 +37,6 @@ class ProductAdapter (private val context: Context, private val list: MutableLis
         val product = list[position]
         holder.bind(product, context)
         holder.add.setOnClickListener {
-            holder.add.visibility = View.GONE
             listener.itemDetail(product)
         }
     }

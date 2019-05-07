@@ -65,7 +65,6 @@
                             android:layout_marginStart="25dp"
                             android:layout_marginBottom="5dp"/>
 
-
                         <TextView
                             android:id="@+id/qty"
                             android:layout_width="wrap_content"

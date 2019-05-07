@@ -7,13 +7,26 @@ import com.example.bigburger.model.Product
 class Utils {
     companion object {
         val cartList = arrayListOf<Product>()
+        val productList = arrayListOf<Product>()
 
         fun getPrice(price : Int): String {
             var newPrice = price.toFloat()
-            newPrice = newPrice/100
+            newPrice /= 100
             var price = String.format("%.2f", newPrice)
             price = "$price ₺"
             return price
+        }
+
+        fun getItemTotal(ref: Int, qty: Int): Int {
+            var price = 0
+            var totalP = 0
+            productList.forEachIndexed { index, element ->
+                if (element.ref == ref) {
+                    price = productList[index].price
+                    totalP = price*qty
+                }
+            }
+            return totalP
         }
 
         fun getTotal(): String {
@@ -23,8 +36,8 @@ class Utils {
                 totalPrice += price
             }
             var price = totalPrice.toFloat()
-            price = price/100
-            var price1 = String.format("%.2f", price)
+            price /= 100
+            val price1 = String.format("%.2f", price)
             return price1
         }
     }

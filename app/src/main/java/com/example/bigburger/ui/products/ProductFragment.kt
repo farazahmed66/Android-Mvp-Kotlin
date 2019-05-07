@@ -48,6 +48,8 @@ class ProductFragment : Fragment(), ProductContract.View, ProductAdapter.OnItemC
 
     //On api data received setting adapter
     override fun loadDataSuccess(list: List<Product>) {
+        Utils.productList.clear()
+        Utils.productList.addAll(list)
         val adapter = ProductAdapter(this.activity!!, list.toMutableList(), this)
         productRecyclerView!!.layoutManager = LinearLayoutManager(activity)
         productRecyclerView!!.adapter = adapter
@@ -72,10 +74,42 @@ class ProductFragment : Fragment(), ProductContract.View, ProductAdapter.OnItemC
     }
 
      override fun itemDetail(product: Product) {
-         count++
+         addToCart(product)
+         count = Utils.cartList.size
          activity?.cart_count?.text = count.toString()
-         Utils.cartList.add(product)
          Toast.makeText(rootView.context, "Item Added to cart", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun addToCart(product: Product) {
+
+        val ref = product.ref
+        var isAdded = false
+
+        if(Utils.cartList.isNotEmpty()){
+
+            Utils.cartList.forEach {
+                if (it.ref == ref) {
+                    isAdded = true
+                }
+            }
+        }
+        if(isAdded)
+            updateItemInCart(ref)
+        else
+            addItemInCart(product)
+    }
+
+    private fun updateItemInCart(ref: Int) {
+        Utils.cartList.forEachIndexed { index, element ->
+            if (element.ref == ref) {
+                Utils.cartList[index].qty++
+                Utils.cartList[index].price = Utils.getItemTotal(ref,Utils.cartList[index].qty)
+            }
+        }
+    }
+
+    private fun addItemInCart(product: Product) {
+        Utils.cartList.add(product)
     }
 
     private fun injectDependency() {
@@ -83,11 +117,6 @@ class ProductFragment : Fragment(), ProductContract.View, ProductAdapter.OnItemC
             .fragmentModule(FragmentModule())
             .build()
         listComponent.injectProductFragment(this)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        initView()
     }
 
     companion object {

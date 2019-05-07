@@ -12,12 +12,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/samplelayout"
+        app:layout_constraintTop_toTopOf="@id/cartFooter"
         tools:listitem="@layout/card_view_cart"
         android:layout_marginBottom="50dp"/>
 
     <LinearLayout
-        android:id="@+id/samplelayout"
+        android:id="@+id/cartFooter"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:paddingStart="10dp"
