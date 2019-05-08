@@ -10,15 +10,19 @@ import android.view.ViewGroup
 import com.example.bigburger.R
 import com.example.bigburger.di.component.DaggerFragmentComponent
 import com.example.bigburger.di.module.FragmentModule
+import com.example.bigburger.model.CartModel
+import com.example.bigburger.ui.products.ProductAdapter
 import com.example.bigburger.util.Utils
 import kotlinx.android.synthetic.main.fragment_cart.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import javax.inject.Inject
 
-class CartFragment : Fragment(), CartContract.View {
+class CartFragment : Fragment(), CartContract.View, CartAdapter.OnItemClickListener {
+
 
     @Inject
     lateinit var presenter: CartContract.Presenter
+    lateinit var adapter: CartAdapter
 
     private lateinit var rootView: View
     val cartList = Utils.cartList
@@ -50,11 +54,44 @@ class CartFragment : Fragment(), CartContract.View {
         activity?.cart_count?.visibility = View.GONE
 
         //initializing recycler View
-        val adapter = CartAdapter(this.activity!!, cartList.toMutableList())
+        adapter = CartAdapter(this.activity!!, Utils.cartList.toMutableList(), this)
         cartRecyclerView!!.layoutManager = LinearLayoutManager(activity)
         cartRecyclerView!!.adapter = adapter
 
         totalPrice.text = Utils.getTotal()
+    }
+
+    override fun qtyDecrease(ref: Int) {
+        Utils.cartList.forEachIndexed { index, element ->
+            if (element.ref == ref) {
+                Utils.cartList[index].qty--
+                Utils.cartList[index].price = Utils.getItemTotal(ref,Utils.cartList[index].qty)
+            }
+            adapter.notifyDataSetChanged()
+            totalPrice.text = Utils.getTotal()
+        }
+    }
+
+    override fun qtyIncrease(ref: Int) {
+        Utils.cartList.forEachIndexed { index, element ->
+            if (element.ref == ref) {
+                Utils.cartList[index].qty++
+                Utils.cartList[index].price = Utils.getItemTotal(ref,Utils.cartList[index].qty)
+            }
+            adapter.notifyDataSetChanged()
+            totalPrice.text = Utils.getTotal()
+        }
+    }
+
+    override fun deleteItem(ref: CartModel) {
+        Utils.cartList.forEachIndexed { index, element ->
+            if (element.ref == ref.ref) {
+                Utils.cartList.remove(ref)
+                adapter.notifyItemRemoved(index)
+            }
+            adapter.notifyDataSetChanged()
+            totalPrice.text = Utils.getTotal()
+        }
     }
 
     private fun injectDependency() {
