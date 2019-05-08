@@ -1,13 +1,14 @@
 package com.example.bigburger.util
 
-import com.example.bigburger.model.Product
+import com.example.bigburger.model.CartModel
+import com.example.bigburger.model.ProductModel
 
 // Utility Class used to store data which is reusable
 
 class Utils {
     companion object {
-        val cartList = arrayListOf<Product>()
-        val productList = arrayListOf<Product>()
+        val cartList = arrayListOf<CartModel>()
+        val productList = arrayListOf<ProductModel>()
 
         fun getPrice(price : Int): String {
             var newPrice = price.toFloat()

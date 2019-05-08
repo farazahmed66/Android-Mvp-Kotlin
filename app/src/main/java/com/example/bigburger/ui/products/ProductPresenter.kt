@@ -1,7 +1,7 @@
 package com.example.bigburger.ui.products
 
 import com.example.bigburger.api.ApiServiceInterface
-import com.example.bigburger.model.Product
+import com.example.bigburger.model.ProductModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -17,7 +17,7 @@ class ProductPresenter: ProductContract.Presenter {
     override fun loadData() {
         val product = api.getProductList().subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({list : List<Product>? ->
+            .subscribe({list : List<ProductModel>? ->
                 view.showProgress(false)
                 view.loadDataSuccess(list!!)
             },{error->

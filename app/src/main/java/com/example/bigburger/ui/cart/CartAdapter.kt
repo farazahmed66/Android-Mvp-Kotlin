@@ -9,10 +9,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.example.bigburger.R
-import com.example.bigburger.model.Product
+import com.example.bigburger.model.CartModel
+import com.example.bigburger.model.ProductModel
 import com.example.bigburger.util.Utils
 
-class CartAdapter  (private val context: Context, private val list: MutableList<Product>):
+class CartAdapter  (private val context: Context, private val list: MutableList<CartModel>):
     RecyclerView.Adapter<CartAdapter.ViewHolder>() {
 
 
@@ -38,7 +39,7 @@ class CartAdapter  (private val context: Context, private val list: MutableList<
         val image = itemView.findViewById<ImageView>(R.id.product_image)!!
         var qty = itemView.findViewById<TextView>(R.id.qty)
 
-        fun bind(item: Product, context: Context) {
+        fun bind(item: CartModel, context: Context) {
             val qtyText = "QTY : "+item.qty.toString()
             name.text = item.title
             qty.text = qtyText

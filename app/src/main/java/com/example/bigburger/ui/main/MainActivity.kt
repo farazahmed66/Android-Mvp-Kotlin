@@ -5,7 +5,7 @@ import android.os.Bundle
 import com.example.bigburger.R
 import com.example.bigburger.di.component.DaggerActivityComponent
 import com.example.bigburger.di.module.ActivityModule
-import com.example.bigburger.model.Product
+import com.example.bigburger.model.ProductModel
 import com.example.bigburger.ui.cart.CartFragment
 import com.example.bigburger.ui.products.ProductFragment
 import com.example.bigburger.util.Utils
@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity(), MainContract.View  {
     override fun showErrorMessage(error: String) {
     }
 
-    override fun loadDataSuccess(list: List<Product>) {
+    override fun loadDataSuccess(list: List<ProductModel>) {
     }
 
 }

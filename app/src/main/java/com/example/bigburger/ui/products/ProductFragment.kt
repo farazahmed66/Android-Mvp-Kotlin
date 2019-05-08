@@ -12,7 +12,8 @@ import android.widget.Toast
 import com.example.bigburger.R
 import com.example.bigburger.di.component.DaggerFragmentComponent
 import com.example.bigburger.di.module.FragmentModule
-import com.example.bigburger.model.Product
+import com.example.bigburger.model.CartModel
+import com.example.bigburger.model.ProductModel
 import com.example.bigburger.util.Utils
 import kotlinx.android.synthetic.main.fragment_product.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
@@ -47,7 +48,7 @@ class ProductFragment : Fragment(), ProductContract.View, ProductAdapter.OnItemC
     }
 
     //On api data received setting adapter
-    override fun loadDataSuccess(list: List<Product>) {
+    override fun loadDataSuccess(list: List<ProductModel>) {
         Utils.productList.clear()
         Utils.productList.addAll(list)
         val adapter = ProductAdapter(this.activity!!, list.toMutableList(), this)
@@ -73,16 +74,16 @@ class ProductFragment : Fragment(), ProductContract.View, ProductAdapter.OnItemC
         activity?.cart_count?.visibility = View.VISIBLE
     }
 
-     override fun itemDetail(product: Product) {
-         addToCart(product)
+     override fun itemDetail(productModel: ProductModel) {
+         addToCart(productModel)
          count = Utils.cartList.size
          activity?.cart_count?.text = count.toString()
          Toast.makeText(rootView.context, "Item Added to cart", Toast.LENGTH_SHORT).show()
     }
 
-    private fun addToCart(product: Product) {
+    private fun addToCart(productModel: ProductModel) {
 
-        val ref = product.ref
+        val ref = productModel.ref
         var isAdded = false
 
         if(Utils.cartList.isNotEmpty()){
@@ -96,7 +97,7 @@ class ProductFragment : Fragment(), ProductContract.View, ProductAdapter.OnItemC
         if(isAdded)
             updateItemInCart(ref)
         else
-            addItemInCart(product)
+            addItemInCart(productModel)
     }
 
     private fun updateItemInCart(ref: Int) {
@@ -108,8 +109,15 @@ class ProductFragment : Fragment(), ProductContract.View, ProductAdapter.OnItemC
         }
     }
 
-    private fun addItemInCart(product: Product) {
-        Utils.cartList.add(product)
+    private fun addItemInCart(productModel: ProductModel) {
+        val cart = CartModel(productModel.ref,
+            productModel.title,
+            productModel.description,
+            productModel.thumbnail,
+            productModel.price,
+            productModel.qty)
+
+        Utils.cartList.add(cart)
     }
 
     private fun injectDependency() {

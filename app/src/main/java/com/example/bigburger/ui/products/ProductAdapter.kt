@@ -10,10 +10,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.example.bigburger.R
-import com.example.bigburger.model.Product
+import com.example.bigburger.model.ProductModel
 import com.example.bigburger.util.Utils
 
-class ProductAdapter (private val context: Context, private val list: MutableList<Product>, fragment: Fragment):
+class ProductAdapter (private val context: Context, private val list: MutableList<ProductModel>, fragment: Fragment):
     RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
 
     private val listener : OnItemClickListener
@@ -49,7 +49,7 @@ class ProductAdapter (private val context: Context, private val list: MutableLis
         val image = itemView.findViewById<ImageView>(R.id.product_image)!!
         val add = itemView.findViewById<ImageView>(R.id.btn_add)!!
 
-        fun bind(item: Product, context: Context) {
+        fun bind(item: ProductModel, context: Context) {
             name.text = item.title
             description.text = item.description
 
@@ -60,6 +60,6 @@ class ProductAdapter (private val context: Context, private val list: MutableLis
     }
 
     interface OnItemClickListener {
-        fun itemDetail(product: Product)
+        fun itemDetail(productModel: ProductModel)
     }
 }
