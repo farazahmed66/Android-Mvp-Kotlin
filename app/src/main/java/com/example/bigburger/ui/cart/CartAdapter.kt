@@ -45,8 +45,8 @@ class CartAdapter  (private val context: Context, private val list: MutableList<
             listener.qtyDecrease(product.ref)
         }
         holder.delete.setOnClickListener {
+            listener.deleteItem(product.ref)
             list.removeAt(position)
-            listener.deleteItem(product)
         }
     }
 
@@ -72,6 +72,6 @@ class CartAdapter  (private val context: Context, private val list: MutableList<
     interface OnItemClickListener {
         fun qtyIncrease(ref: Int)
         fun qtyDecrease(ref: Int)
-        fun deleteItem(ref: CartModel)
+        fun deleteItem(ref: Int)
     }
 }

@@ -76,8 +76,7 @@ class ProductFragment : Fragment(), ProductContract.View, ProductAdapter.OnItemC
 
      override fun itemDetail(productModel: ProductModel) {
          addToCart(productModel)
-         count = Utils.cartList.size
-         activity?.cart_count?.text = count.toString()
+         activity?.cart_count?.text = Utils.cartList.size.toString()
          Toast.makeText(rootView.context, "Item Added to cart", Toast.LENGTH_SHORT).show()
     }
 
@@ -87,7 +86,6 @@ class ProductFragment : Fragment(), ProductContract.View, ProductAdapter.OnItemC
         var isAdded = false
 
         if(Utils.cartList.isNotEmpty()){
-
             Utils.cartList.forEach {
                 if (it.ref == ref) {
                     isAdded = true
@@ -125,6 +123,11 @@ class ProductFragment : Fragment(), ProductContract.View, ProductAdapter.OnItemC
             .fragmentModule(FragmentModule())
             .build()
         listComponent.injectProductFragment(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activity?.cart_count?.text = Utils.cartList.size.toString()
     }
 
     companion object {

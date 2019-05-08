@@ -61,6 +61,7 @@ class CartFragment : Fragment(), CartContract.View, CartAdapter.OnItemClickListe
         totalPrice.text = Utils.getTotal()
     }
 
+
     override fun qtyDecrease(ref: Int) {
         Utils.cartList.forEachIndexed { index, element ->
             if (element.ref == ref) {
@@ -83,10 +84,10 @@ class CartFragment : Fragment(), CartContract.View, CartAdapter.OnItemClickListe
         }
     }
 
-    override fun deleteItem(ref: CartModel) {
+    override fun deleteItem(ref: Int) {
         Utils.cartList.forEachIndexed { index, element ->
-            if (element.ref == ref.ref) {
-                Utils.cartList.remove(ref)
+            if (element.ref == ref) {
+                Utils.cartList.removeAt(index)
                 adapter.notifyItemRemoved(index)
             }
             adapter.notifyDataSetChanged()
@@ -100,6 +101,7 @@ class CartFragment : Fragment(), CartContract.View, CartAdapter.OnItemClickListe
             .build()
         listComponent.injectCartFragment(this)
     }
+
     companion object {
         const val TAG: String = "CartFragment"
     }
